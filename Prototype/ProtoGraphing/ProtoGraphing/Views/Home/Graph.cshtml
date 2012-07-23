@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Graph";
+}
+
+<h2>Prototype Graphing with D3.js</h2>
+<p>The following is a working example of the D3.js 'Bar Chart' tutorial detailed here <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>
+and here <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a></p>
+    
+<script type="text/javascript">
+
+    var data = [4, 8, 15, 16, 23, 42];
+    var chart = d3.select("div#main").append("div")
+        .attr("class", "chart");
+
+    chart.selectAll("div")
+        .data(data)
+        .enter().append("div")
+        .style("width", function (d) { return d * 10 + "px"; })
+        .text(function (d) { return d; });
+
+</script>
