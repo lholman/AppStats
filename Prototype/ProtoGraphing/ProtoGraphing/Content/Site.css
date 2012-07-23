@@ -338,3 +338,12 @@ div#title {
     stroke: white;
     fill: steelblue;
 }
+
+.chart text {
+    font: 10px sans-serif;
+    color: white;
+}
+
+.chart text.bar {
+  fill: white;
+}
