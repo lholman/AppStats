@@ -3,8 +3,10 @@
 }
 
 <h2>Prototype Graphing with D3.js</h2>
-<p>The following is a working example of the D3.js 'Bar Chart' tutorial detailed here <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>
-and here <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a></p>
+<p>The following shows my working through the examples found in the D3.js 'Bar Chart' tutorial, detailed here <a href="http://mbostock.github.com/d3/tutorial/bar-1.html" title="A Bar Chart, Part 1">A Bar Chart, Part 1</a>
+and here <a href="http://mbostock.github.com/d3/tutorial/bar-2.html" title="A Bar Chart, Part 2">A Bar Chart, Part 2</a></p>
+
+<p>1. An HTML bar chart example, using a fixed data array</p>
     
 <script type="text/javascript">
 
@@ -12,10 +14,40 @@ and here <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net
     var chart = d3.select("div#main").append("div")
         .attr("class", "chart");
 
+    var x = d3.scale.linear()
+        .domain([0, d3.max(data)])
+        .range(["0px", "420px"]);
+
     chart.selectAll("div")
         .data(data)
         .enter().append("div")
-        .style("width", function (d) { return d * 10 + "px"; })
-        .text(function (d) { return d; });
+        .style("width", x)
+        .text(String);
+
+</script>
+
+<p>Now, the HTML representation is very concise, but it’s not very flexible. Displaying reference lines in the background, or generating columns rather than bars, is difficult in pure HTML. Chart types such as pies and streamgraphs are practically impossible. Fortunately, there’s a convenient alternative: Scalable Vector Graphics (SVG)!</p>
+
+<p>2. A more flexible SVG example, also using a fixed data array</p>
+
+<script type="text/javascript">
+
+    var data = [4, 8, 15, 16, 23, 42];
+    var chart = d3.select("div#main").append("svg")
+        .attr("class", "chart")
+        .attr("width", 420)
+        .attr("height", 20 * data.length);
+
+    var x = d3.scale.linear()
+        .domain([0, d3.max(data)])
+        .range([0, 420]);
+
+    chart.selectAll("rect")
+        .data(data)
+        .enter().append("rect")
+        .attr("y", function (d, i) { return i * 20; })
+        .attr("width", x)
+        .attr("height", 20);
+
 
 </script>
