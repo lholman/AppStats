@@ -125,33 +125,31 @@ These examples are very relevant to visualisation of time-series data.</p>
 
 <script type="text/javascript">
 
-var t = 1297110663, // start time (seconds since epoch)
+    var t = 1297110663, // start time (seconds since epoch)
     v = 70, // start value (subscribers)
     data = d3.range(33).map(next); // starting dataset
- 
-function next() {
-    return {
-        time: ++t,
-        value: v = ~~Math.max(10, Math.min(90, v + 10 * (Math.random() - .5)))
-    };
-}
 
-setInterval(function() {
-    data.shift();
-    data.push(next());
-    redraw1();
-}, 1500);
+    function next() {
+        return {
+            time: ++t,
+            value: v = ~ ~Math.max(10, Math.min(90, v + 10 * (Math.random() - .5)))
+        };
+    }
 
-var w = 20,
+    var w = 20,
     h = 80;
 
-var x = d3.scale.linear()
+    var x = d3.scale.linear()
     .domain([0, 1])
-    .range([0, w]); 
+    .range([0, w]);
 
-var y = d3.scale.linear()
+    var y = d3.scale.linear()
     .domain([0, 100])
     .rangeRound([0, h]);
+
+</script>
+
+<script type="text/javascript">
 
 var chart1 = d3.select("div#main").append("svg")
     .attr("class", "chart")
@@ -191,34 +189,6 @@ function redraw1() {
 <p>...and to quote again "Yet, the above animation is poor because it lacks object constancy through the transition: it does not convey the changing data accurately. Rather than updating values in-place, the bars should slide to the left, so that each bar corresponds to the same point in time across the transition. Do this using a data join, to bind nodes to data by timestamp rather than index:"</p>
 
 <script type="text/javascript">
-
-    var t = 1297110663, // start time (seconds since epoch)
-    v = 70, // start value (subscribers)
-    data = d3.range(33).map(next); // starting dataset
-
-    function next() {
-        return {
-            time: ++t,
-            value: v = ~ ~Math.max(10, Math.min(90, v + 10 * (Math.random() - .5)))
-        };
-    }
-
-    setInterval(function () {
-        data.shift();
-        data.push(next());
-        redraw2();
-    }, 1500);
-
-    var w = 20,
-    h = 80;
-
-    var x = d3.scale.linear()
-    .domain([0, 1])
-    .range([0, w]);
-
-    var y = d3.scale.linear()
-    .domain([0, 100])
-    .rangeRound([0, h]);
 
     var chart2 = d3.select("div#main").append("svg")
     .attr("class", "chart")
@@ -267,34 +237,6 @@ function redraw1() {
 
 <script type="text/javascript">
 
-    var t = 1297110663, // start time (seconds since epoch)
-    v = 70, // start value (subscribers)
-    data = d3.range(33).map(next); // starting dataset
-
-    function next() {
-        return {
-            time: ++t,
-            value: v = ~ ~Math.max(10, Math.min(90, v + 10 * (Math.random() - .5)))
-        };
-    }
-
-    setInterval(function () {
-        data.shift();
-        data.push(next());
-        redraw3();
-    }, 1500);
-
-    var w = 20,
-    h = 80;
-
-    var x = d3.scale.linear()
-    .domain([0, 1])
-    .range([0, w]);
-
-    var y = d3.scale.linear()
-    .domain([0, 100])
-    .rangeRound([0, h]);
-
     var chart3 = d3.select("div#main").append("svg")
     .attr("class", "chart")
     .attr("width", w * data.length - 1)
@@ -337,5 +279,21 @@ function redraw1() {
             .attr("x", function(d, i) { return x(i - 1) - .5; })
             .remove();
     }
+
+</script>
+
+<p>Browser Support, as taken from the D3 wiki... "D3 supports so-called “modern” browsers, which generally means everything except IE8 and below. D3 is tested against Firefox, Chrome (Chromium), Safari (WebKit), Opera and IE9. Parts of D3 may work in older browsers, as the core D3 library has minimal requirements: JavaScript and the W3C DOM API. For IE8, the compatibility library Aight is recommended. D3 uses the Selectors API Level 1, but you can preload Sizzle for compatibility. You'll need a modern browser to use SVG and CSS3 Transitions. D3 is not a compatibility layer, so if your browser doesn't support standards, you're out of luck. Sorry!"</p>
+<p>Looks nice on the iPhone too ;-)</p>
+
+<script type='text/javascript'>
+
+    setInterval(function () {
+        data.shift();
+        data.push(next());
+        redraw1();
+        redraw2();
+        redraw3();
+        d3.timer.flush(); // avoid memory leak when in background tab
+    }, 1500);
 
 </script>
